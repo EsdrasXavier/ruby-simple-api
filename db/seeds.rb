@@ -7,7 +7,8 @@
     article = Article.create({
       title: Faker::Book.title,
       body: Faker::Lorem.sentence,
-      users_id: user.id
+      users_id: user.id,
+      status: 0
     })
   end
 end

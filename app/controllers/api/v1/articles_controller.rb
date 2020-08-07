@@ -44,7 +44,7 @@ module Api
 
       def article_params
         # Maybe use the token to find the user id?
-        params.permit(:title, :body, :users_id)
+        params.permit(:title, :body, :users_id, :status)
       end
 
       def authenticate
