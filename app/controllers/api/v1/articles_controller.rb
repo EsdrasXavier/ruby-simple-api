@@ -1,6 +1,9 @@
 module Api
   module V1
     class ArticlesController < ApplicationController
+      include ActionController::HttpAuthentication::Token::ControllerMethods
+      before_action :authenticate, only: [:create, :destroy]
+
       def index
         articles = Article.order('created_at DESC')
         render json: { status: 'SUCCESS', message: 'Loaded articles', data: articles }, status: :ok
@@ -40,7 +43,14 @@ module Api
       private
 
       def article_params
-        params.permit(:title, :body)
+        # Maybe use the token to find the user id?
+        params.permit(:title, :body, :users_id)
+      end
+
+      def authenticate
+        authenticate_or_request_with_http_token do |token, options|
+          @user = User.find_by(token: token)
+        end
       end
     end
   end
